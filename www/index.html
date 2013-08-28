@@ -110,22 +110,10 @@
         );
     }
 
-
     // Beep three times
     function playBeep() {
         navigator.notification.beep(3);
     }
-
-    // Vibrate for 2 seconds
-    function vibrate() {
-        navigator.notification.vibrate(1000);
-		navigator.notification.alert("vibrate(1000)");
-    }
-//     document.addEventListener("deviceready", function(){
-//    navigator.notification.vibrate(1000);
-//    navigator.notification.alert("Hello");
-//    navigator.notification.beep(1);   
-// }, false);
 
     // process the confirmation dialog result
     function onConfirm(buttonIndex) {
@@ -158,28 +146,6 @@
         );
     }
 
-    // camera.getPicture
-    // Called when a photo is successfully retrieved
-    function onPhotoDataSuccess(imageData) {
-      // Uncomment to view the base64-encoded image data
-      // console.log(imageData);
-
-      // Get image handle
-      var smallImage = document.getElementById('smallImage');
-
-      // Unhide image elements
-      smallImage.style.display = 'block';
-
-      // Show the captured photo
-      // The inline CSS rules are used to resize the image
-      //
-      // 
-      // cameraSuccess
-      // imageData: Base64 encoding of the image data, or the image file URI, depending on cameraOptions in effect. (String)
-      smallImage.src = "data:image/jpeg;base64," + imageData;
-
-    }
-
     // Called when a photo is successfully retrieved
     function onPhotoURISuccess(imageURI) {
       // Uncomment to view the image file URI
@@ -196,30 +162,6 @@
       largeImage.src = imageURI;
     }
 
-    // A button will call this function
-    function capturePhoto() {
-     //  var popover = new CameraPopoverOptions(300, 300, 100, 100, Camera.PopoverArrowDirection.ARROW_ANY);
-     //  var options = {
-     //     quality         : 50,
-     //     destinationType : Camera.DestinationType.DATA_URL,
-     //     sourceType      : Camera.PictureSource.SAVEDPHOTOALBUM,
-     //     popoverOptions  : popover
-     // };
-
-
-      // Take picture using device camera and retrieve image as base64-encoded string
-      navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 50,
-        destinationType: destinationType.DATA_URL });
-
-       // navigator.camera.getPicture(onPhotoURISuccess, onFail, options);
-    }
-
-    // A button will call this function
-    function capturePhotoEdit() {
-      // Take picture using device camera, allow edit, and retrieve image as base64-encoded string
-      navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 20, allowEdit: true,
-        destinationType: destinationType.DATA_URL });
-    }
 
     // A button will call this function
     function getPhoto(source) {
