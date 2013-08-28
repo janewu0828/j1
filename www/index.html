@@ -10,15 +10,16 @@
 
 <script type="text/javascript" charset="utf-8"></script>
 <!-- cordova -->
-<script src="cordova.js"></script>
+<!--<script src="cordova.js"></script> -->
 <!-- cordova facebook plugin -->
-<script src="cdv-plugin-fb-connect.js"></script>
+<!--<script src="cdv-plugin-fb-connect.js"></script> -->
 <!-- facebook js sdk -->
 <script src="facebook-js-sdk.js"></script>
         
 <script>
 	<!-- fb connect -->
 	<!-- These are the notifications that are displayed to the user through pop-ups if the above JS files does not exist in the same directory-->
+	/*
 	if ((typeof cordova == 'undefined') && (typeof Cordova == 'undefined')) alert('Cordova variable does not exist. Check that you have included cordova.js correctly');
 	if (typeof CDV == 'undefined') alert('CDV variable does not exist. Check that you have included cdv-plugin-fb-connect.js correctly');
 	if (typeof FB == 'undefined') alert('FB variable does not exist. Check that you have included the Facebook JS SDK file.');
@@ -48,6 +49,7 @@
             }
 		});
 	}
+	*/
 
 	function logout() {
 		FB.logout(function(response) {
@@ -80,18 +82,12 @@
 	}, false);
 
 	<!-- phonegap api -->
-	// camera.getPicture
-    var pictureSource;   // picture source
-    var destinationType; // sets the format of returned value
-
     // Wait for device API libraries to load
     document.addEventListener("deviceready", onDeviceReady, false);
 
     // device APIs are available
     function onDeviceReady() {
-        // camera.getPicture
-        pictureSource=navigator.camera.PictureSourceType;
-        destinationType=navigator.camera.DestinationType;
+        
     }
 
     // alert dialog dismissed
@@ -126,7 +122,7 @@
             'showConfirm!',			// message
              onConfirm,				// callback to invoke with index of button pressed
             'title',				// title
-            'buttonLabel,Exit'		// buttonLabels
+            'buttonLabel(1),buttonLabel(2)'		// buttonLabels
         );
     }
 
@@ -179,12 +175,16 @@ html, body { width: 100%; height: 100%; margin: 0px; }
 	});
 	
 	function showP21(){
-		$("#p21_div").empty();		
+		$("#p21_div").empty();	
+		$("#p21_header").empty();	
 		var p21_div=document.getElementById("p21_div");
 		var p21_id=arr1[getQueryString("id")];
     	var c1=p21_id.getContent();
-		$("#p21_div").append(c1) ;	
-		<!--<div class="fb-like" data-href="http://developers.facebook.com/docs/reference/plugins/like" data-width="450" data-show-faces="true" data-send="true"></div> -->
+		var t1=p21_id.getTitle();
+		$("#p21_div").append(c1);
+		$("#p21_header").append(t1) ;
+		//$("#p21_like").text('<div class="fb-like" data-href="http://developers.facebook.com/docs/reference/plugins/like" data-width="450" data-show-faces="true" data-send="true">');
+		//$("#p21_like").append('<div class="fb-like" data-href="http://developers.facebook.com/docs/reference/plugins/like" data-width="450" data-show-faces="true" data-send="true">') ;
 	}
 	
 	function init(){
@@ -208,7 +208,7 @@ html, body { width: 100%; height: 100%; margin: 0px; }
 			},
 	
 			error: function() {
-				alert("ERROR1!!!");
+				alert("ERROR+json!");
 			}
 		});
 	}
@@ -258,7 +258,7 @@ html, body { width: 100%; height: 100%; margin: 0px; }
 	<div data-role="header">
 		<h1>第二頁</h1>
     </div>
-	<div data-role="content">	
+	<div data-role="content" data-position="fixed">	
 		<ul data-role="listview" id="p2_dataList">
             <li>
             	<a href="#">
@@ -276,13 +276,15 @@ html, body { width: 100%; height: 100%; margin: 0px; }
 
 <div data-role="page" id="page21" data-add-back-btn="true">
 	<div data-role="header">
-		<h1>第二頁之一</h1>
+		<h1 id="p21_header">第二頁之一</h1>
+        <div id="p21_like"></div> 
+        <div class="fb-like" data-href="http://womany.net/read/article/823?ref=hp" data-width="450" data-show-faces="true" data-send="true"></div>
+        <!--<div class="fb-like" data-href="http://developers.facebook.com/docs/reference/plugins/like" data-width="450" data-show-faces="true" data-send="true"></div> -->
 	</div>
 	<div data-role="content">
     
     	<div id="p21_div"></div> 
-        
-	</div>
+ 		<div id="like-button"><fb:like url="http://www.cnn.com/" width="275"></fb:like></div>
 	<div data-role="footer">
 		<h4>頁尾</h4>
 	</div>
