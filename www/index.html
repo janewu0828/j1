@@ -9,134 +9,117 @@
 <script src="jquery-mobile/jquery.mobile-1.0.min.js" type="text/javascript"></script>
 
 <script type="text/javascript" charset="utf-8"></script>
-        <!-- cordova -->
-		<script src="cordova.js"></script>
-	    <!-- cordova facebook plugin -->
-		<script src="cdv-plugin-fb-connect.js"></script>
-	    <!-- facebook js sdk -->
-		<script src="facebook-js-sdk.js"></script>
+<!-- cordova -->
+<script src="cordova.js"></script>
+<!-- cordova facebook plugin -->
+<script src="cdv-plugin-fb-connect.js"></script>
+<!-- facebook js sdk -->
+<script src="facebook-js-sdk.js"></script>
         
-		<script>
-             <!-- These are the notifications that are displayed to the user through pop-ups if the above JS files does not exist in the same directory-->
-            if ((typeof cordova == 'undefined') && (typeof Cordova == 'undefined')) alert('Cordova variable does not exist. Check that you have included cordova.js correctly');
-            if (typeof CDV == 'undefined') alert('CDV variable does not exist. Check that you have included cdv-plugin-fb-connect.js correctly');
-            if (typeof FB == 'undefined') alert('FB variable does not exist. Check that you have included the Facebook JS SDK file.');
+<script>
+	<!-- fb connect -->
+	<!-- These are the notifications that are displayed to the user through pop-ups if the above JS files does not exist in the same directory-->
+	if ((typeof cordova == 'undefined') && (typeof Cordova == 'undefined')) alert('Cordova variable does not exist. Check that you have included cordova.js correctly');
+	if (typeof CDV == 'undefined') alert('CDV variable does not exist. Check that you have included cdv-plugin-fb-connect.js correctly');
+	if (typeof FB == 'undefined') alert('FB variable does not exist. Check that you have included the Facebook JS SDK file.');
             
-            FB.Event.subscribe('auth.login', function(response) {
-                               alert('auth.login event');
-                               });
+	FB.Event.subscribe('auth.login', function(response) {
+		alert('auth.login event');
+	});
             
-            FB.Event.subscribe('auth.logout', function(response) {
-                               alert('auth.logout event');
-                               });
+	FB.Event.subscribe('auth.logout', function(response) {
+		alert('auth.logout event');
+	});
             
-            FB.Event.subscribe('auth.sessionChange', function(response) {
-                               alert('auth.sessionChange event');
-                               });
+	FB.Event.subscribe('auth.sessionChange', function(response) {
+		alert('auth.sessionChange event');
+ 	});
             
-            FB.Event.subscribe('auth.statusChange', function(response) {
-                               alert('auth.statusChange event');
-                               });
-            
-            /*function getSession() {
-                alert("session: " + JSON.stringify(FB.getSession()));
-            }
-            */
-            function getLoginStatus() {
-              FB.getLoginStatus(function(response) {
-                if (response.status == 'connected') {
-                  alert('logged in');
-                } else {
-                  alert('not logged in');
-                }
-              });
-            }
-           
-            
-            function logout() {
-                FB.logout(function(response) {
-                          alert('logged out');
-                          });
-            }
-            
-            function login() {
-              alert('a');
-                FB.login(
-                 function(response) {
-                   alert('b+'+response.authResponse);
-                   if (response.authResponse) {
-                     alert('logged in');
-                   } else {
-                     alert('c');
-                     alert('not logged in');
-                   }
-                 },
-                 { scope: "email" }
-                 );
-            }
-            
-            document.addEventListener('deviceready', function() {
-                                      try {
-                                      //alert('Device is ready! Make sure you set your app_id below this alert.');
-									  //Put your FB APP_ID here!
-                                      FB.init({ appId: "149909718537834", nativeInterface: CDV.FB, useCachedDialogs: false });
-                                      document.getElementById('data').innerHTML = "";
-                                      } catch (e) {
-                                        alert('error');
-                                      alert(e);
-                                      }
-                                      }, false);
-            </script>
+	FB.Event.subscribe('auth.statusChange', function(response) {
+		alert('auth.statusChange event');
+	});
 
-<script type="text/javascript" charset="utf-8">
-// camera.getPicture
+    function getLoginStatus() {
+		FB.getLoginStatus(function(response) {
+			if (response.status == 'connected') {
+ 				alert('logged in');
+			} else {
+                alert('not logged in');
+            }
+		});
+	}
+
+	function logout() {
+		FB.logout(function(response) {
+			alert('logged out');
+		});
+	}
+            
+	function login() {
+		alert('a');
+		FB.login(
+			function(response) {
+				alert('b+'+response.authResponse);
+					if (response.authResponse) {
+						alert('c+logged in');
+					} else {
+						alert('c+not logged in');
+					}
+			},{ scope: "email" }
+		);
+	}
+            
+	document.addEventListener('deviceready', function() {
+		try {
+			//Put your FB APP_ID here!
+			FB.init({ appId: "149909718537834", nativeInterface: CDV.FB, useCachedDialogs: false });
+						document.getElementById('data').innerHTML = "";
+		} catch (e) {
+			alert('error+'+e);
+		}
+	}, false);
+
+	<!-- phonegap api -->
+	// camera.getPicture
     var pictureSource;   // picture source
     var destinationType; // sets the format of returned value
 
     // Wait for device API libraries to load
-    //
     document.addEventListener("deviceready", onDeviceReady, false);
 
     // device APIs are available
-    //
     function onDeviceReady() {
-        // Empty
-
         // camera.getPicture
         pictureSource=navigator.camera.PictureSourceType;
         destinationType=navigator.camera.DestinationType;
     }
 
-
-
-
     // alert dialog dismissed
-        function alertDismissed() {
-            // do something
-        }
+    function alertDismissed() {
+		// do something
+		alert('callback + alertDismissed');
+	}
 
     // Show a custom alertDismissed
-    //
     function showAlert() {
         navigator.notification.alert(
-            'You are the winner!',  // message
-            //alertDismissed,         // callback
-            'Game Over',            // title
-            'Done'                  // buttonName
+            'showAlert!',			// message
+            alertDismissed,			// callback
+            'title',				// title
+            'button'				// buttonName
         );
     }
 
 
     // Beep three times
-    //
     function playBeep() {
         navigator.notification.beep(3);
     }
 
     // Vibrate for 2 seconds
-    //
     function vibrate() {
         navigator.notification.vibrate(1000);
+		navigator.notification.alert("vibrate(1000)");
     }
 //     document.addEventListener("deviceready", function(){
 //    navigator.notification.vibrate(1000);
@@ -150,13 +133,12 @@
     }
 
     // Show a custom confirmation dialog
-    //
     function showConfirm() {
         navigator.notification.confirm(
-            'You are the winner!', // message
-             onConfirm,            // callback to invoke with index of button pressed
-            'Game Over',           // title
-            'Restart,Exit'         // buttonLabels
+            'showConfirm!',			// message
+             onConfirm,				// callback to invoke with index of button pressed
+            'title',				// title
+            'buttonLabel,Exit'		// buttonLabels
         );
     }
 
@@ -166,7 +148,6 @@
     }
 
     // Show a custom prompt dialog
-    //
     function showPrompt() {
         navigator.notification.prompt(
             'Please enter your name',  // message
@@ -177,20 +158,16 @@
         );
     }
 
-
     // camera.getPicture
     // Called when a photo is successfully retrieved
-    //
     function onPhotoDataSuccess(imageData) {
       // Uncomment to view the base64-encoded image data
       // console.log(imageData);
 
       // Get image handle
-      //
       var smallImage = document.getElementById('smallImage');
 
       // Unhide image elements
-      //
       smallImage.style.display = 'block';
 
       // Show the captured photo
@@ -204,30 +181,25 @@
     }
 
     // Called when a photo is successfully retrieved
-    //
     function onPhotoURISuccess(imageURI) {
       // Uncomment to view the image file URI
       // console.log(imageURI);
 
       // Get image handle
-      //
       var largeImage = document.getElementById('largeImage');
 
       // Unhide image elements
-      //
       largeImage.style.display = 'block';
 
       // Show the captured photo
       // The inline CSS rules are used to resize the image
-      //
       largeImage.src = imageURI;
     }
 
     // A button will call this function
-    //
     function capturePhoto() {
      //  var popover = new CameraPopoverOptions(300, 300, 100, 100, Camera.PopoverArrowDirection.ARROW_ANY);
-     // var options = {
+     //  var options = {
      //     quality         : 50,
      //     destinationType : Camera.DestinationType.DATA_URL,
      //     sourceType      : Camera.PictureSource.SAVEDPHOTOALBUM,
@@ -243,7 +215,6 @@
     }
 
     // A button will call this function
-    //
     function capturePhotoEdit() {
       // Take picture using device camera, allow edit, and retrieve image as base64-encoded string
       navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 20, allowEdit: true,
@@ -251,7 +222,6 @@
     }
 
     // A button will call this function
-    //
     function getPhoto(source) {
       // Retrieve image file location from specified source
       navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 50,
@@ -260,7 +230,6 @@
     }
 
     // Called if something bad happens.
-    //
     function onFail(message) {
       alert('Failed because: ' + message);
     }
@@ -339,8 +308,8 @@ html, body { width: 100%; height: 100%; margin: 0px; }
 </head> 
 <body onLoad="init()"> 
 
- <!--<script src="http://localhost:8080/target/target-script-min.js#anonymous"></script>-->
-        <div id="fb-root"></div>
+<!-- fb connect -->
+<div id="fb-root"></div>
 
 
 <div data-role="page" id="page" >
@@ -358,7 +327,9 @@ html, body { width: 100%; height: 100%; margin: 0px; }
             <li><a href="#page3">第三頁</a></li>
 			<!--<li><a href="#page4">第四頁</a></li> -->
             
+            <!-- fb connect -->
             <div id="data">loading ...</div>
+            <div id="log"></div>
             		 
 		</ul>		
 	</div>
@@ -436,9 +407,6 @@ html, body { width: 100%; height: 100%; margin: 0px; }
 		<h4>頁尾</h4>
 	</div>
 </div>  
-
-       
-	<div id="log"></div>
 
 </body>
 </html>
