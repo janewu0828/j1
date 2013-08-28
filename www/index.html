@@ -146,31 +146,6 @@
         );
     }
 
-    // Called when a photo is successfully retrieved
-    function onPhotoURISuccess(imageURI) {
-      // Uncomment to view the image file URI
-      // console.log(imageURI);
-
-      // Get image handle
-      var largeImage = document.getElementById('largeImage');
-
-      // Unhide image elements
-      largeImage.style.display = 'block';
-
-      // Show the captured photo
-      // The inline CSS rules are used to resize the image
-      largeImage.src = imageURI;
-    }
-
-
-    // A button will call this function
-    function getPhoto(source) {
-      // Retrieve image file location from specified source
-      navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 50,
-        destinationType: destinationType.FILE_URI,
-        sourceType: source });
-    }
-
     // Called if something bad happens.
     function onFail(message) {
       alert('Failed because: ' + message);
@@ -322,15 +297,8 @@ html, body { width: 100%; height: 100%; margin: 0px; }
 		內容
         <p><a href="#" onclick="showAlert(); return false;">Show Alert</a></p>
     	<p><a href="#" onclick="playBeep(); return false;">Play Beep</a></p>
-    	<p><a href="#" onclick="vibrate(); return false;">Vibrate</a></p>
     	<p><a href="#" onclick="showConfirm(); return false;">Show Confirm</a></p>
     	<p><a href="#" onclick="showPrompt(); return false;">Show Prompt</a></p>
-    	<button onclick="capturePhoto();">Capture Photo</button> <br>
-   		<button onclick="capturePhotoEdit();">Capture Editable Photo</button> <br>
-    	<button onclick="getPhoto(pictureSource.PHOTOLIBRARY);">From Photo Library</button><br>
-    	<button onclick="getPhoto(pictureSource.SAVEDPHOTOALBUM);">From Photo Album</button><br>
-    	<img style="display:none;width:60px;height:60px;" id="smallImage" src="" />
-    	<img style="display:none;" id="largeImage" src="" />
 	</div>
 	<div data-role="footer">
 		<h4>頁尾</h4>
