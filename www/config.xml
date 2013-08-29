@@ -6,10 +6,10 @@
         id        = "com.phonegap.pgbfbtest"
         version   = "1.0.0">
 
-    <name>j2</name>
+    <name>j1</name>
 
     <description>
-        j2 sample application that responds to the deviceready event.
+        j1 sample application that responds to the deviceready event.
     </description>
 
     <author href="http://phonegap.com" email="support@phonegap.com">
