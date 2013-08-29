@@ -15,30 +15,27 @@
 <script src="cdv-plugin-fb-connect.js"></script>
 <!-- facebook js sdk -->
 <script src="facebook-js-sdk.js"></script>
-        
+
 <script>
-	<!-- fb connect -->
-	<!-- These are the notifications that are displayed to the user through pop-ups if the above JS files does not exist in the same directory-->
-	
 	if ((typeof cordova == 'undefined') && (typeof Cordova == 'undefined')) alert('Cordova variable does not exist. Check that you have included cordova.js correctly');
 	if (typeof CDV == 'undefined') alert('CDV variable does not exist. Check that you have included cdv-plugin-fb-connect.js correctly');
 	if (typeof FB == 'undefined') alert('FB variable does not exist. Check that you have included the Facebook JS SDK file.');
             
-	//FB.Event.subscribe('auth.login', function(response) {
-	//	alert('auth.login event');
-	//});
+	FB.Event.subscribe('auth.login', function(response) {
+		alert('auth.login event');
+	});
             
-	//FB.Event.subscribe('auth.logout', function(response) {
-	//	alert('auth.logout event');
-	//});
+	FB.Event.subscribe('auth.logout', function(response) {
+		alert('auth.logout event');
+	});
             
-	//FB.Event.subscribe('auth.sessionChange', function(response) {
-	//	alert('auth.sessionChange event');
- 	//});
+	FB.Event.subscribe('auth.sessionChange', function(response) {
+		alert('auth.sessionChange event');
+ 	});
             
-	//FB.Event.subscribe('auth.statusChange', function(response) {
-	//	alert('auth.statusChange event');
-	//});
+	FB.Event.subscribe('auth.statusChange', function(response) {
+		alert('auth.statusChange event');
+	});
 
     function getLoginStatus() {
 		FB.getLoginStatus(function(response) {
@@ -79,14 +76,57 @@
 			alert('error+'+e);
 		}
 	}, false);
+</script>
 
-	<!-- phonegap api -->
+<script>
+	// camera.getPicture
+    var pictureSource;   // picture source
+    var destinationType; // sets the format of returned value
+	
     // Wait for device API libraries to load
     document.addEventListener("deviceready", onDeviceReady, false);
 
     // device APIs are available
     function onDeviceReady() {
-        
+        // camera.getPicture
+        pictureSource=navigator.camera.PictureSourceType;
+        destinationType=navigator.camera.DestinationType;
+    }
+	
+	// camera.getPicture
+    // Called when a photo is successfully retrieved
+    function onPhotoDataSuccess(imageData) {
+      // Get image handle
+      var smallImage = document.getElementById('smallImage');
+      // Unhide image elements
+      smallImage.style.display = 'block';
+      // cameraSuccess
+      smallImage.src = "data:image/jpeg;base64," + imageData;
+    }
+
+    // Called when a photo is successfully retrieved
+    function onPhotoURISuccess(imageURI) {
+      // Get image handle
+      var largeImage = document.getElementById('largeImage');
+      // Unhide image elements
+      largeImage.style.display = 'block';
+      // Show the captured photo
+      largeImage.src = imageURI;
+    }
+
+    // A button will call this function
+    function capturePhoto() {
+      // Take picture using device camera and retrieve image as base64-encoded string
+      navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 50,
+        destinationType: destinationType.DATA_URL });
+    }
+
+    // A button will call this function
+    function getPhoto(source) {
+      // Retrieve image file location from specified source
+      navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 50,
+        destinationType: destinationType.FILE_URI,
+        sourceType: source });
     }
 
     // alert dialog dismissed
@@ -104,8 +144,8 @@
             'button'				// buttonName
         );
     }
-
-    // Beep three times
+	
+	// Beep three times
     function playBeep() {
         navigator.notification.beep(3);
     }
@@ -141,63 +181,10 @@
         );
     }
 	
-	// camera.getPicture
-    // Called when a photo is successfully retrieved
-    function onPhotoDataSuccess(imageData) {
-      // Get image handle
-      var smallImage = document.getElementById('smallImage');
-      // Unhide image elements
-      smallImage.style.display = 'block';
-      // cameraSuccess
-      smallImage.src = "data:image/jpeg;base64," + imageData;
-    }
-
-    // Called when a photo is successfully retrieved
-    function onPhotoURISuccess(imageURI) {
-      // Get image handle
-      var largeImage = document.getElementById('largeImage');
-      // Unhide image elements
-      largeImage.style.display = 'block';
-      // Show the captured photo
-      largeImage.src = imageURI;
-    }
-
-    // A button will call this function
-    function capturePhoto() {
-      // Take picture using device camera and retrieve image as base64-encoded string
-      navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 50,
-        destinationType: destinationType.DATA_URL });
-    }
-
-    // A button will call this function
-    function capturePhotoEdit() {
-      // Take picture using device camera, allow edit, and retrieve image as base64-encoded string
-      navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 20, allowEdit: true,
-        destinationType: destinationType.DATA_URL });
-    }
-
-    // A button will call this function
-    function getPhoto(source) {
-      // Retrieve image file location from specified source
-      navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 50,
-        destinationType: destinationType.FILE_URI,
-        sourceType: source });
-    }
-
-    // Called if something bad happens.
+	// Called if something bad happens.
     function onFail(message) {
       alert('Failed because: ' + message);
     }
-	
-	 // Load the SDK asynchronously
-  (function(d, s, id){
-     var js, fjs = d.getElementsByTagName(s)[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement(s); js.id = id;
-     js.src = "//connect.facebook.net/en_US/all.js";
-     fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'));
-
 </script>
 
 <style>
@@ -205,8 +192,7 @@
 html, body { width: 100%; height: 100%; margin: 0px; }
 </style>
 
-<script language="javascript">
-	
+<script language="javascript">		
 	var Data=function(title, description, content){
 		this.title=title;
 		this.description=description;
@@ -220,24 +206,22 @@ html, body { width: 100%; height: 100%; margin: 0px; }
 	var arr1=new Array();	
 	
 	$(function(){
-		$("#p21_div").width(window.innerWidth-40);
-		$("#p21_div").height(window.innerHeight);
+		$("#p21_content").width(window.innerWidth-40);
+		$("#p21_content").height(window.innerHeight);
 		$("#page21").bind("pageshow", showP21);
 	});
 	
 	function showP21(){
-		$("#p21_div").empty();	
+		$("#p21_content").empty();	
 		$("#p21_header").empty();	
-		var p21_div=document.getElementById("p21_div");
+		var p21_content=document.getElementById("p21_content");
 		var p21_id=arr1[getQueryString("id")];
     	var c1=p21_id.getContent();
 		var t1=p21_id.getTitle();
-		$("#p21_div").append(c1);
+		$("#p21_content").append(c1);
 		$("#p21_header").append(t1) ;
-		//$("#p21_like").text('<div class="fb-like" data-href="http://developers.facebook.com/docs/reference/plugins/like" data-width="450" data-show-faces="true" data-send="true">');
-		//$("#p21_like").append('<div class="fb-like" data-href="http://developers.facebook.com/docs/reference/plugins/like" data-width="450" data-show-faces="true" data-send="true">') ;
 	}
-	
+		
 	function init(){
 		$.ajax({
 			url: "http://womany.net/api/win8/hot_articles",
@@ -248,7 +232,6 @@ html, body { width: 100%; height: 100%; margin: 0px; }
 				var list=$("#p2_dataList");		  
 				list.empty(); 
 				for(var i=0; i<Jdata.length; i++){					
-					//list.append('<li><h3>' + Jdata[i].title + "</h3><p>" + Jdata[i].description + "</p></li>");
 					var d=new Data(Jdata[i].title, Jdata[i].description, Jdata[i].content); 
                 	arr1.push(d);
 					list.append('<li><a href="#"><h3>' + arr1[i].title + 
@@ -271,36 +254,29 @@ html, body { width: 100%; height: 100%; margin: 0px; }
 	　　var regResults = regex.exec( window.location.href.toLowerCase() ); 
 	　　if( regResults == null )    return ""; 
 	　　else    return regResults [1];
-	}
+	}	
 </script>
 
 </head> 
-<body onLoad="init()"> 
+<body onLoad="init()">  
+<div id="fb-root">	<!-- fb connect -->
 
-<!-- fb connect -->
-<div id="fb-root"></div>
-
-
-<div data-role="page" id="page" >
+<div data-role="page" id="page">
 	<div data-role="header">
 		<h1>第一頁</h1>
         
         <!-- fb connect -->
         <div id="data">loading ...</div>
-        <div id="log"></div>        
+        <div id="log"></div>   
 		<button onclick="login()">Login</button>
 		<button onclick="getLoginStatus()">Get login</button>
 		<button onclick="logout()">Logout</button> 
-               
 	</div>
-	<div data-role="content">    
-    	<ul data-role="listview">
+	<div data-role="content">	
+		<ul data-role="listview">
 			<li><a href="#page2">第二頁</a></li>
             <li><a href="#page3">第三頁</a></li>
 			<li><a href="#page4">第四頁</a></li>
-            
-            <div class="fb-like" data-href="http://womany.net/read/article/823?ref=hp" data-width="450" data-show-faces="true" data-send="true"></div>
-            <div class="fb-like" data-href="http://womany.net" data-width="450" data-show-faces="true" data-send="true"></div>   		 
 		</ul>		
 	</div>
 	<div data-role="footer">
@@ -311,8 +287,8 @@ html, body { width: 100%; height: 100%; margin: 0px; }
 <div data-role="page" id="page2" data-add-back-btn="true">
 	<div data-role="header">
 		<h1>第二頁</h1>
-    </div>
-	<div data-role="content" data-position="fixed">	
+	</div>
+	<div data-role="content">	
 		<ul data-role="listview" id="p2_dataList">
             <li>
             	<a href="#">
@@ -331,27 +307,22 @@ html, body { width: 100%; height: 100%; margin: 0px; }
 <div data-role="page" id="page21" data-add-back-btn="true">
 	<div data-role="header">
 		<h1 id="p21_header">第二頁之一</h1>
-        <div id="p21_like"></div> 
-        <!--<div class="fb-like" data-href="http://developers.facebook.com/docs/reference/plugins/like" data-width="450" data-show-faces="true" data-send="true"></div> -->
 	</div>
-	<div data-role="content">
-    
-    	<div id="p21_div"></div> 
- 		<div id="like-button"><fb:like url="http://www.cnn.com/" width="275"></fb:like></div>
+	<div data-role="content" id="p21_content">	
+		
+	</div>
 	<div data-role="footer">
 		<h4>頁尾</h4>
 	</div>
 </div>
 
-<div data-role="page" id="page3">
+<div data-role="page" id="page3" data-add-back-btn="true">
 	<div data-role="header">
-    	<a href="#page" data-icon="back">返回</a>
 		<h1>第三頁</h1>
 	</div>
 	<div data-role="content">	
-		內容
-        <p><a href="#" onclick="showAlert(); return false;">Show Alert</a></p>
-    	<p><a href="#" onclick="playBeep(); return false;">Play Beep</a></p>
+		<p><a href="#" onclick="showAlert(); return false;">Show Alert</a></p>
+        <p><a href="#" onclick="playBeep(); return false;">Play Beep</a></p>
     	<p><a href="#" onclick="showConfirm(); return false;">Show Confirm</a></p>
     	<p><a href="#" onclick="showPrompt(); return false;">Show Prompt</a></p>
 	</div>
@@ -361,22 +332,20 @@ html, body { width: 100%; height: 100%; margin: 0px; }
 </div>
 
 <div data-role="page" id="page4">
-	<div data-role="header" data-add-back-btn="true"> 
+	<div data-role="header">
+    	<a href="#page" data-icon="star">test返回</a>
 		<h1>第四頁</h1>
 	</div>
 	<div data-role="content">	
-		內容
-        <button onclick="capturePhoto();">Capture Photo</button> <br>
-    	<button onclick="capturePhotoEdit();">Capture Editable Photo</button> <br>
-    	<button onclick="getPhoto(pictureSource.PHOTOLIBRARY);">From Photo Library</button><br>
-    	<button onclick="getPhoto(pictureSource.SAVEDPHOTOALBUM);">From Photo Album</button><br>
+		<button onclick="capturePhoto();" data-icon="plus">Capture Photo</button> <br>
+    	<button onclick="getPhoto(pictureSource.SAVEDPHOTOALBUM);" data-icon="search">From Photo Album</button><br>
     	<img style="display:none;width:60px;height:60px;" id="smallImage" src="" />
     	<img style="display:none;" id="largeImage" src="" />
 	</div>
 	<div data-role="footer">
 		<h4>頁尾</h4>
 	</div>
-</div>  
+</div>
 
 </body>
 </html>
