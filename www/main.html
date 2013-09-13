@@ -1,0 +1,351 @@
+<!DOCTYPE html> 
+<html>
+<head>
+<meta charset="utf-8">
+<title>jQuery Mobile 網路應用程式</title>
+<link href="jquery-mobile/jquery.mobile.theme-1.0.min.css" rel="stylesheet" type="text/css"/>
+<link href="jquery-mobile/jquery.mobile.structure-1.0.min.css" rel="stylesheet" type="text/css"/>
+<script src="jquery-mobile/jquery-1.6.4.min.js" type="text/javascript"></script>
+<script src="jquery-mobile/jquery.mobile-1.0.min.js" type="text/javascript"></script>
+
+<script type="text/javascript" charset="utf-8"></script>
+<!-- cordova -->
+<script src="cordova.js"></script>
+<!-- cordova facebook plugin -->
+<script src="cdv-plugin-fb-connect.js"></script>
+<!-- facebook js sdk -->
+<script src="facebook-js-sdk.js"></script>
+
+<script>
+	if ((typeof cordova == 'undefined') && (typeof Cordova == 'undefined')) alert('Cordova variable does not exist. Check that you have included cordova.js correctly');
+	if (typeof CDV == 'undefined') alert('CDV variable does not exist. Check that you have included cdv-plugin-fb-connect.js correctly');
+	if (typeof FB == 'undefined') alert('FB variable does not exist. Check that you have included the Facebook JS SDK file.');
+            
+	FB.Event.subscribe('auth.login', function(response) {
+		alert('auth.login event');
+	});
+            
+	FB.Event.subscribe('auth.logout', function(response) {
+		alert('auth.logout event');
+	});
+            
+	FB.Event.subscribe('auth.sessionChange', function(response) {
+		alert('auth.sessionChange event');
+ 	});
+            
+	FB.Event.subscribe('auth.statusChange', function(response) {
+		alert('auth.statusChange event');
+	});
+
+    function getLoginStatus() {
+		FB.getLoginStatus(function(response) {
+			if (response.status == 'connected') {
+ 				alert('logged in');
+			} else {
+                alert('not logged in');
+            }
+		});
+	}
+
+	function logout() {
+		FB.logout(function(response) {
+			alert('logged out');
+		});
+	}
+            
+	function login() {
+		alert('a');
+		FB.login(
+			function(response) {
+				alert('b+'+response.authResponse);
+					if (response.authResponse) {
+						alert('c+logged in');
+					} else {
+						alert('c+not logged in');
+					}
+			},{ scope: "email" }
+		);
+	}
+            
+	document.addEventListener('deviceready', function() {
+		try {
+			//Put your FB APP_ID here!
+			FB.init({ appId: "553642721338198", nativeInterface: CDV.FB, useCachedDialogs: false });
+						document.getElementById('data').innerHTML = "";
+		} catch (e) {
+			alert('error+'+e);
+		}
+	}, false);
+</script>
+
+<script>
+	// camera.getPicture
+    var pictureSource;   // picture source
+    var destinationType; // sets the format of returned value
+	
+    // Wait for device API libraries to load
+    document.addEventListener("deviceready", onDeviceReady, false);
+
+    // device APIs are available
+    function onDeviceReady() {
+        // camera.getPicture
+        pictureSource=navigator.camera.PictureSourceType;
+        destinationType=navigator.camera.DestinationType;
+    }
+	
+	// camera.getPicture
+    // Called when a photo is successfully retrieved
+    function onPhotoDataSuccess(imageData) {
+      // Get image handle
+      var smallImage = document.getElementById('smallImage');
+      // Unhide image elements
+      smallImage.style.display = 'block';
+      // cameraSuccess
+      smallImage.src = "data:image/jpeg;base64," + imageData;
+    }
+
+    // Called when a photo is successfully retrieved
+    function onPhotoURISuccess(imageURI) {
+      // Get image handle
+      var largeImage = document.getElementById('largeImage');
+      // Unhide image elements
+      largeImage.style.display = 'block';
+      // Show the captured photo
+      largeImage.src = imageURI;
+    }
+
+    // A button will call this function
+    function capturePhoto() {
+      // Take picture using device camera and retrieve image as base64-encoded string
+      navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 50,
+        destinationType: destinationType.DATA_URL });
+    }
+
+    // A button will call this function
+    function getPhoto(source) {
+      // Retrieve image file location from specified source
+      navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 50,
+        destinationType: destinationType.FILE_URI,
+        sourceType: source });
+    }
+
+    // alert dialog dismissed
+    function alertDismissed() {
+		// do something
+		alert('callback + alertDismissed');
+	}
+
+    // Show a custom alertDismissed
+    function showAlert() {
+        navigator.notification.alert(
+            'showAlert!',			// message
+            alertDismissed,			// callback
+            'title',				// title
+            'button'				// buttonName
+        );
+    }
+	
+	// Beep three times
+    function playBeep() {
+        navigator.notification.beep(3);
+    }
+
+    // process the confirmation dialog result
+    function onConfirm(buttonIndex) {
+        alert('You selected button ' + buttonIndex);
+    }
+
+    // Show a custom confirmation dialog
+    function showConfirm() {
+        navigator.notification.confirm(
+            'showConfirm!',			// message
+             onConfirm,				// callback to invoke with index of button pressed
+            'title',				// title
+            'buttonLabel(1),buttonLabel(2)'		// buttonLabels
+        );
+    }
+
+    // process the promptation dialog result
+    function onPrompt(results) {
+        alert("You selected button number " + results.buttonIndex + " and entered " + results.input1);
+    }
+
+    // Show a custom prompt dialog
+    function showPrompt() {
+        navigator.notification.prompt(
+            'Please enter your name',  // message
+            onPrompt,                  // callback to invoke
+            'Registration',            // title
+            ['Ok','Exit'],             // buttonLabels
+            'Jane Doe'                 // defaultText
+        );
+    }
+	
+	// Called if something bad happens.
+    function onFail(message) {
+      alert('Failed because: ' + message);
+    }
+</script>
+
+<style>
+#p21_div{}
+html, body { width: 100%; height: 100%; margin: 0px; }
+</style>
+
+<script language="javascript">		
+	var Data=function(title, description, content){
+		this.title=title;
+		this.description=description;
+		this.content=content;
+		
+		this.getTitle=function(){return this.title;}
+		this.getDescript=function(){return this.description;}
+		this.getContent=function(){return this.content;}
+	}
+	
+	var arr1=new Array();	
+	
+	$(function(){
+		$("#p21_content").width(window.innerWidth-40);
+		$("#p21_content").height(window.innerHeight);
+		$("#page21").bind("pageshow", showP21);
+	});
+	
+	function showP21(){
+		$("#p21_content").empty();	
+		$("#p21_header").empty();	
+		var p21_content=document.getElementById("p21_content");
+		var p21_id=arr1[getQueryString("id")];
+    	var c1=p21_id.getContent();
+		var t1=p21_id.getTitle();
+		$("#p21_content").append(c1);
+		$("#p21_header").append(t1) ;
+	}
+		
+	function init(){
+		$.ajax({
+			url: "http://womany.net/api/win8/hot_articles",
+			type: "GET",
+			dataType: "json",
+			
+			success: function(Jdata) {
+				var list=$("#p2_dataList");		  
+				list.empty(); 
+				for(var i=0; i<Jdata.length; i++){					
+					var d=new Data(Jdata[i].title, Jdata[i].description, Jdata[i].content); 
+                	arr1.push(d);
+					list.append('<li><a href="#"><h3>' + arr1[i].title + 
+                            "</h3><p>" + arr1[i].description +
+                            "</p> </a> <a href='#page21&id=" + i + "'>詳細 </a></li>");
+				}		  
+				list.listview("refresh");			
+			},
+	
+			error: function() {
+				alert("ERROR+json!");
+			}
+		});
+	}
+	
+	function getQueryString(paramName){ 
+	　　paramName = paramName .replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]").toLowerCase();
+	　　var reg = "[\\?&]"+paramName +"=([^&#]*)"; 
+	　　var regex = new RegExp( reg ); 
+	　　var regResults = regex.exec( window.location.href.toLowerCase() ); 
+	　　if( regResults == null )    return ""; 
+	　　else    return regResults [1];
+	}	
+</script>
+
+</head> 
+<body onLoad="init()">  
+<div id="fb-root">	<!-- fb connect -->
+
+<div data-role="page" id="page">
+	<div data-role="header">
+		<h1>第一頁</h1>
+        
+        <!-- fb connect -->
+        <div id="data">loading ...</div>
+        <div id="log"></div>   
+		<button onclick="login()">Login</button>
+		<button onclick="getLoginStatus()">Get login</button>
+		<button onclick="logout()">Logout</button> 
+	</div>
+	<div data-role="content">	
+		<ul data-role="listview">
+			<li><a href="#page2">第二頁</a></li>
+            <li><a href="#page3">第三頁</a></li>
+			<li><a href="#page4">第四頁</a></li>
+		</ul>		
+	</div>
+	<div data-role="footer">
+		<h4>頁尾</h4>
+	</div>
+</div>
+
+<div data-role="page" id="page2" data-add-back-btn="true">
+	<div data-role="header">
+		<h1>第二頁</h1>
+	</div>
+	<div data-role="content">	
+		<ul data-role="listview" id="p2_dataList">
+            <li>
+            	<a href="#">
+                    <h3>頁面二</h3>
+                    <p>Lorem ipsum</p>
+      			</a>
+                <a href="#page21">第二頁詳細</a>
+            </li>
+		</ul>
+	</div>
+	<div data-role="footer">
+		<h4>頁尾</h4>
+	</div>
+</div>
+
+<div data-role="page" id="page21" data-add-back-btn="true">
+	<div data-role="header">
+		<h1 id="p21_header">第二頁之一</h1>
+	</div>
+	<div data-role="content" id="p21_content">	
+		
+	</div>
+	<div data-role="footer">
+		<h4>頁尾</h4>
+	</div>
+</div>
+
+<div data-role="page" id="page3" data-add-back-btn="true">
+	<div data-role="header">
+		<h1>第三頁</h1>
+	</div>
+	<div data-role="content">	
+		<p><a href="#" onclick="showAlert(); return false;">Show Alert</a></p>
+        <p><a href="#" onclick="playBeep(); return false;">Play Beep</a></p>
+    	<p><a href="#" onclick="showConfirm(); return false;">Show Confirm</a></p>
+    	<p><a href="#" onclick="showPrompt(); return false;">Show Prompt</a></p>
+	</div>
+	<div data-role="footer">
+		<h4>頁尾</h4>
+	</div>
+</div>
+
+<div data-role="page" id="page4">
+	<div data-role="header">
+    	<a href="#page" data-icon="star">test返回</a>
+		<h1>第四頁</h1>
+	</div>
+	<div data-role="content">	
+		<button onclick="capturePhoto();" data-icon="plus">Capture Photo</button> <br>
+    	<button onclick="getPhoto(pictureSource.SAVEDPHOTOALBUM);" data-icon="search">From Photo Album</button><br>
+    	<img style="display:none;width:60px;height:60px;" id="smallImage" src="" />
+    	<img style="display:none;" id="largeImage" src="" />
+	</div>
+	<div data-role="footer">
+		<h4>頁尾</h4>
+	</div>
+</div>
+
+</body>
+</html>
